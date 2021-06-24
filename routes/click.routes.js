@@ -36,7 +36,7 @@ router.post("/getCounts", auth, async (req, res) => {
 			}
 		}
 
-		if (clicks) {
+		if (clicks.length) {
 			clickCounts.push({
 				date: clicks[clicks.length - 1].date,
 				clicks: count,
@@ -44,6 +44,19 @@ router.post("/getCounts", auth, async (req, res) => {
 		}
 
 		res.json(clickCounts);
+	} catch (e) {
+		res.status(500).json({ message: "Smth went wrong...! Try later" });
+		console.log(e);
+	}
+});
+
+router.get("/getCount/:linkId", auth, async (req, res) => {
+	try {
+		const clicks = await modelCLick.find({
+			linkId: req.params.linkId,
+		});
+
+		res.status(200).json({ count: clicks.length });
 	} catch (e) {
 		res.status(500).json({ message: "Smth went wrong...! Try later" });
 		console.log(e);

@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const requestIp = require("request-ip");
+const serveStatic = require("serve-static");
+const path = require("path");
 
 //not global
 const config = require("./config");
@@ -33,6 +35,7 @@ const ipMiddleware = function (req, res, next) {
 	requestIp.getClientIp(req);
 	next();
 };
+
 app.use(ipMiddleware);
 
 app.use("/api/auth", authRoutes);
@@ -40,5 +43,11 @@ app.use("/api/link", linkRoutes);
 app.use("/r", redirectRoutes);
 app.use("/debug", debugRoutes);
 app.use("/api/click", clickRoutes);
+
+app.use(serveStatic(__dirname + "/client/dist"));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "client/dist/index.html"));
+});
 
 module.exports = app;

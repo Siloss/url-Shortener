@@ -15,10 +15,6 @@ const schema = new Schema({
 		ref: "Users",
 		required: true,
 	},
-	clicks: {
-		type: Number,
-		default: 0,
-	},
 	created: {
 		type: Date,
 		default: Date.now,

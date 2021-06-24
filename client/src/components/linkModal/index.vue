@@ -16,7 +16,7 @@
 				</li>
 				<li>
 					<h5>clicks:</h5>
-					{{ linkData.clicks }}
+					{{ clicksCount }}
 				</li>
 				<li>
 					<h5>created:</h5>
@@ -37,11 +37,13 @@
 
 <script>
 import moment from "moment";
+import Api from "../../api/api";
 export default {
 	name: "linkModal",
 	data: () => ({
 		MaterialInstance: null,
 		linkData: {},
+		clicksCount: 0,
 	}),
 	mounted() {
 		this.MaterialInstance = M.Modal.init(this.$el, {});
@@ -56,9 +58,22 @@ export default {
 		getShortenedUrl(hash) {
 			return window.location.origin + "/r/" + hash;
 		},
+		async getClicksCount(linkId) {
+			const api = new Api(
+				"/api/click/getCount/" + linkId,
+				"Bearer " + localStorage.getItem("jwt")
+			);
+
+			const res = await api.GET();
+
+			console.log(res);
+
+			this.clicksCount = res.count;
+		},
 		open(linkData) {
 			this.linkData = linkData;
 			this.MaterialInstance.open();
+			this.getClicksCount(linkData._id);
 		},
 		close() {
 			this.url = "https://";
