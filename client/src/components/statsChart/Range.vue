@@ -4,7 +4,7 @@
 			v-model="dateRange"
 			range
 			v-on:change="$emit('change', dateRange)"
-			placeholder="Select interval"
+			placeholder="Select shown interval"
 		></date-picker>
 	</div>
 </template>
