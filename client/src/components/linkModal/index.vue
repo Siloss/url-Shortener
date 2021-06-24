@@ -24,14 +24,6 @@
 				</li>
 			</ul>
 		</div>
-		<div class="modal-footer">
-			<button
-				class="waves-effect waves-light btn-flat red white-text"
-				@click="close()"
-			>
-				Close
-			</button>
-		</div>
 	</div>
 </template>
 
@@ -74,10 +66,6 @@ export default {
 			this.linkData = linkData;
 			this.MaterialInstance.open();
 			this.getClicksCount(linkData._id);
-		},
-		close() {
-			this.url = "https://";
-			this.MaterialInstance.close();
 		},
 		destroy() {
 			this.MaterialInstance.destroy();
